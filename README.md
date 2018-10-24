@@ -43,6 +43,7 @@ Animates a transient outline element that makes the element appear to transfer t
 |---------|--------|-------------|
 | [skylark-langx](https://github.com/skylarklangx/skylark-langx)   |  | Javascript language extension library |
 | [skylark-utils](https://github.com/skylarkutils/skylark-utils)   |  | Javascript dom utility library |
+| [skylark-utils-dom](https://github.com/skylarkutils/skylark-utils-dom) | | An Universal DOM Utility Library |
 
 ##  Different builds
 builds are in the directory dist.
@@ -96,9 +97,9 @@ require({
 ## Building 
 
 - Ensure that Node.js is installed.
-- Run npm gulp -g to ensure gulp is installed.
+- Run npm install https://github.com/skylarkjs/skylark-bundle-cli.git -g to ensure sbundle is installed.
 - Run npm install to ensure the required dependencies are installed.
-- change current directory to build/, and run gulp. The builds will be placed in the dist/ directory.
+- Run npm run build. The builds will be placed in the dist/ directory.
 
 ## License
 
