@@ -1,5 +1,5 @@
 {
-  "name": "skylark-utils-effects",
+  "name": "skylark-domx-effects",
   "version": "0.9.0",
   "description": "The effect features enhancement for skylark utils.",
   "main": "-",
@@ -10,7 +10,7 @@
   "homepage": "www.skylarkjs.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skylarkutils/skylark-utils-effects.git"
+    "url": "git+https://github.com/skylark-domx/skylark-domx-effects.git"
   },
   "keywords": [
     "skylark",
@@ -25,7 +25,6 @@
   "bugs": "https://github.com/skylarkjs/skylark/issues",
   "devDependencies": {
     "skylark-langx": "https://github.com/skylarklangx/skylark-langx#master",
-    "skylark-utils": "https://github.com/skylarkutils/skylark-utils#master",
     "skylark-utils-dom": "https://github.com/skylarkutils/skylark-utils-dom#master"
   },
   "engines": {

@@ -1,8 +1,8 @@
-# skylark-utils-effects
+# skylark-domx-effects
 The skylark effect utility library
 
 <!--version-->
-[skylark-utils-effects](https://github.com/skylarkutils/skylark-utils-effects/) is a effect utility library  for html5 application development using skylark.
+[skylark-domx-effects](https://github.com/skylar-domx/skylark-domx-effects/) is a effect utility library  for html5 application development using skylark.
 
 ## What's included
 The effects contained in the library are listed  as follows:
@@ -42,7 +42,6 @@ Animates a transient outline element that makes the element appear to transfer t
 | Project | Status | Description |
 |---------|--------|-------------|
 | [skylark-langx](https://github.com/skylarklangx/skylark-langx)   |  | Javascript language extension library |
-| [skylark-utils](https://github.com/skylarkutils/skylark-utils)   |  | Javascript dom utility library |
 | [skylark-utils-dom](https://github.com/skylarkutils/skylark-utils-dom) | | An Universal DOM Utility Library |
 
 ##  Different builds
@@ -50,47 +49,47 @@ builds are in the directory dist.
 
 |  | build | Description |
 |---------|--------|-------------|
-| full | skylark-utils-effects-all.js | included dependences |
-| only | skylark-utils-effects.js | not included dependences |
-| full （development） | uncompressed/skylark-utils-effects-all.js | included dependences |
-| only （development）| uncompressed/skylark-utils-effects.js | not included dependences |
+| full | skylark-domx-effects-all.js | included dependences |
+| only | skylark-domx-effects.js | not included dependences |
+| full （development） | uncompressed/skylark-domx-effects-all.js | included dependences |
+| only （development）| uncompressed/skylark-domx-effects.js | not included dependences |
 
 Please use the "full" version when using this library alone, and use the "only" version when using other skylark libraries.
 
 ## Installation
 You can get the latest version in many different ways:
 
-- Downloading [a ZIP file from master](https://github.com/skylarkutils/skylark-utils-effects/archive/master.zip)
-- Cloning using Git: `git clone https://github.com/skylarkutils/skylark-utils-effects.git`
-- Installing via NPM: `npm install https://github.com/skylarkutils/skylark-utils-effects.git#master --save`
+- Downloading [a ZIP file from master](https://github.com/skylarkutils/skylark-domx-effects/archive/master.zip)
+- Cloning using Git: `git clone https://github.com/skylarkutils/skylark-domx-effects.git`
+- Installing via NPM: `npm install https://github.com/skylarkutils/skylark-domx-effects.git#master --save`
 
 
 ## Usage
 
-- Using the skylark-utils-effects library for a AMD module.  
+- Using the skylark-domx-effects library for a AMD module.  
 ```js
 require({
   'paths': {
-     'skylark-utils-effects': '{location}/skylark-utils-effects-all' 
+     'skylark-domx-effects': '{location}/skylark-domx-effects-all' 
   }
-}, ['skylark-utils-effects'], function(effects) {
+}, ['skylark-domx-effects'], function(effects) {
 });
 ```
 
-- Using the skylark-utils-effects library for a global object named skylarkjs.  
+- Using the skylark-domx-effects library for a global object named skylarkjs.  
 ```js
-<script type="text/javascript" src="{location}/skylark-utils-effects-all.js"></script>
+<script type="text/javascript" src="{location}/skylark-domx-effects-all.js"></script>
 <script>
 </script>
 ```
 
-- Using the skylark-utils-effects library for a AMD package.  
+- Using the skylark-domx-effects library for a AMD package.  
 ```js
 require({
   'packages': [
-    { 'name': 'skylark-utils-effects', 'location': '{location}/skylark-utils-effects/' }
+    { 'name': 'skylark-domx-effects', 'location': '{location}/skylark-domx-effects/' }
   ]
-}, ['skylark-utils-effects/effects'], function(Color) {
+}, ['skylark-domx-effects/effects'], function(Color) {
 });
 ```
 
