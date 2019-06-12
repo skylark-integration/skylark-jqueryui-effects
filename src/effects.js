@@ -582,6 +582,6 @@ define([
 	} );
 
 
-	return effects;
+	return skylark.attach("domx.effects", effects);
 
 });

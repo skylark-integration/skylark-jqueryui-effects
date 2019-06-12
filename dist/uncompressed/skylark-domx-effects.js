@@ -670,7 +670,7 @@ define('skylark-domx-effects/effects',[
 	} );
 
 
-	return effects;
+	return skylark.attach("domx.effects", effects);
 
 });
 
