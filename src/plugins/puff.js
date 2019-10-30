@@ -1,6 +1,6 @@
 define( [
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects",
 	"./scale"
 ], function(langx,$,effects,scale) {

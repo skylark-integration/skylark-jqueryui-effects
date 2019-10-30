@@ -1,8 +1,8 @@
 define([ 
 	"skylark-langx/skylark",
 	"skylark-langx/langx",
-	"skylark-utils-dom/fx",
-	"skylark-utils-dom/query"
+	"skylark-domx-fx",
+	"skylark-domx-query"
 ],function(skylark,langx,fx,$) {
 
 	var dataSpace = "ui-effects-",

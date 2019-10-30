@@ -24,8 +24,16 @@
   "license": "MIT",
   "bugs": "https://github.com/skylarkjs/skylark/issues",
   "devDependencies": {
-    "skylark-langx": "https://github.com/skylarklangx/skylark-langx#master",
-    "skylark-utils-dom": "https://github.com/skylarkutils/skylark-utils-dom#master"
+    "skylark-domx-data": "git+https://github.com/skylark-domx/skylark-domx-data.git#master",
+    "skylark-domx-eventer": "git+https://github.com/skylark-domx/skylark-domx-eventer.git#master",
+    "skylark-domx-finder": "git+https://github.com/skylark-domx/skylark-domx-finder.git#master",
+    "skylark-domx-fx": "git+https://github.com/skylark-domx/skylark-domx-fx.git#master",
+    "skylark-domx-geom": "git+https://github.com/skylark-domx/skylark-domx-geom.git#master",
+    "skylark-domx-noder": "git+https://github.com/skylark-domx/skylark-domx-noder.git#master",
+    "skylark-domx-query": "git+https://github.com/skylark-domx/skylark-domx-query.git#master",
+    "skylark-domx-styler": "git+https://github.com/skylark-domx/skylark-domx-styler.git#master",
+    "skylark-domx-velm": "git+https://github.com/skylark-domx/skylark-domx-velm.git#master",
+    "skylark-langx": "git+https://github.com/skylarklangx/skylark-langx.git#master"
   },
   "engines": {
     "node": ">=0.8.0"

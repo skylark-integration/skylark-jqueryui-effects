@@ -89,8 +89,8 @@
 define('skylark-domx-effects/effects',[ 
 	"skylark-langx/skylark",
 	"skylark-langx/langx",
-	"skylark-utils-dom/fx",
-	"skylark-utils-dom/query"
+	"skylark-domx-fx",
+	"skylark-domx-query"
 ],function(skylark,langx,fx,$) {
 
 	var dataSpace = "ui-effects-",
@@ -676,7 +676,7 @@ define('skylark-domx-effects/effects',[
 
 define( 'skylark-domx-effects/plugins/blind',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "blind", "hide", function( options, done ) {
@@ -721,7 +721,7 @@ return effects.define( "blind", "hide", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/bounce',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "bounce", function( options, done ) {
@@ -825,7 +825,7 @@ return effects.define( "bounce", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/clip',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "clip", "hide", function( options, done ) {
@@ -865,7 +865,7 @@ return effects.define( "clip", "hide", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/drop',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "drop", "hide", function( options, done ) {
@@ -910,7 +910,7 @@ return effects.define( "drop", "hide", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/explode',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "explode", "hide", function( options, done ) {
@@ -994,7 +994,7 @@ return effects.define( "explode", "hide", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/fade',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 	return effects.define( "fade", "toggle", function( options, done ) {
@@ -1016,7 +1016,7 @@ define( 'skylark-domx-effects/plugins/fade',[
 
 define( 'skylark-domx-effects/plugins/fold',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "fold", "hide", function( options, done ) {
@@ -1092,7 +1092,7 @@ return effects.define( "fold", "hide", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/highlight',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "highlight", "show", function( options, done ) {
@@ -1124,7 +1124,7 @@ return effects.define( "highlight", "show", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/size',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "size", function( options, done ) {
@@ -1290,7 +1290,7 @@ return effects.define( "size", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/scale',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects",
 	"./size"
 ], function(langx,$,effects,size) {
@@ -1322,7 +1322,7 @@ return effects.define( "scale", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/puff',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects",
 	"./scale"
 ], function(langx,$,effects,scale) {
@@ -1340,7 +1340,7 @@ define( 'skylark-domx-effects/plugins/puff',[
 
 define( 'skylark-domx-effects/plugins/pulsate',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "pulsate", "show", function( options, done ) {
@@ -1397,7 +1397,7 @@ return effects.define( "pulsate", "show", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/shake',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "shake", function( options, done ) {
@@ -1462,7 +1462,7 @@ return effects.define( "shake", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/slide',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "slide", "show", function( options, done ) {
@@ -1513,7 +1513,7 @@ return effects.define( "slide", "show", function( options, done ) {
 
 define( 'skylark-domx-effects/plugins/transfer',[
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 	var effect;

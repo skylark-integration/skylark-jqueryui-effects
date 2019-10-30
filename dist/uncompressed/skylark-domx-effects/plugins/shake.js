@@ -1,6 +1,6 @@
 define( [
 	"skylark-langx/langx",
-	"skylark-utils-dom/query",
+	"skylark-domx-query",
 	"../effects"
 ], function(langx,$,effects) {
 return effects.define( "shake", function( options, done ) {

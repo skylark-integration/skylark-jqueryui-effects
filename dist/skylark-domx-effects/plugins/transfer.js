@@ -5,5 +5,5 @@
  * @link www.skylarkjs.org
  * @license MIT
  */
-define(["skylark-langx/langx","skylark-utils-dom/query","../effects"],function(n,e,r){var a;return!1!==e.uiBackCompat&&(a=r.define("transfer",function(n,r){e(this).transfer(n,r)})),a});
+define(["skylark-langx/langx","skylark-domx-query","../effects"],function(n,e,r){var a;return!1!==e.uiBackCompat&&(a=r.define("transfer",function(n,r){e(this).transfer(n,r)})),a});
 //# sourceMappingURL=../sourcemaps/plugins/transfer.js.map
