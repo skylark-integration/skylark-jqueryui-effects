@@ -11,7 +11,7 @@ define([
 		plugins = {};
 
 
-	var effects = skylark.effects = function() {
+	var effects = function() {
 
 	};
 

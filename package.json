@@ -23,7 +23,7 @@
   "author": "Hudaokeji Co.,Ltd",
   "license": "MIT",
   "bugs": "https://github.com/skylarkjs/skylark/issues",
-  "devDependencies": {
+  "dependencies": {
     "skylark-domx-data": "git+https://github.com/skylark-domx/skylark-domx-data.git#master",
     "skylark-domx-eventer": "git+https://github.com/skylark-domx/skylark-domx-eventer.git#master",
     "skylark-domx-finder": "git+https://github.com/skylark-domx/skylark-domx-finder.git#master",
