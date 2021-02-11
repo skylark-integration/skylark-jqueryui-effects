@@ -1,5 +1,5 @@
 {
-  "name": "skylark-domx-effects",
+  "name": "skylark-jqueryui-effects",
   "version": "0.9.0",
   "description": "The effect features enhancement for skylark utils.",
   "main": "-",
@@ -10,7 +10,7 @@
   "homepage": "www.skylarkjs.org",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skylark-domx/skylark-domx-effects.git"
+    "url": "git+https://github.com/skylark-integration/skylark-jqueryui-effects.git"
   },
   "keywords": [
     "skylark",
