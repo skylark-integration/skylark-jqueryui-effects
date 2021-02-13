@@ -1,9 +1,11 @@
 define( [
 	"skylark-langx/langx",
 	"skylark-domx-query",
+	"skylark-domx-fx/slide",
 	"../effects"
-], function(langx,$,effects) {
+], function(langx,$,xslide,effects) {
 return effects.define( "slide", "show", function( options, done ) {
+	/*
 	var startClip, startRef,
 		element = $( this ),
 		map = {
@@ -45,6 +47,11 @@ return effects.define( "slide", "show", function( options, done ) {
 		easing: options.easing,
 		complete: done
 	} );
+	*/
+	if (!options.direction) {
+		options.direction = "left";
+	}
+	xslide(this,options,done);
 } );
 
 });

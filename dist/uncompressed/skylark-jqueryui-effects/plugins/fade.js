@@ -1,21 +1,17 @@
 define( [
 	"skylark-langx/langx",
+	"skylark-domx-styler",
 	"skylark-domx-query",
+	"skylark-domx-fx/fade",
 	"../effects"
-], function(langx,$,effects) {
+], function(langx,styler,$,xfade,effects) {
 	return effects.define( "fade", "toggle", function( options, done ) {
 		var show = options.mode === "show";
 
-		$( this )
-			.css( "opacity", show ? 0 : 1 )
-			.animate( {
-				opacity: show ? 1 : 0
-			}, {
-				queue: false,
-				duration: options.duration,
-				easing: options.easing,
-				complete: done
-			} );
+		styler.css(this,"opacity", show ? 0 : 1 );
+
+		xfade(this,  show ? 1 : 0, options ,done );
+		
 	});
 
 });

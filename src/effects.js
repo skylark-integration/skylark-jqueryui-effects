@@ -2,8 +2,10 @@ define([
 	"skylark-langx/skylark",
 	"skylark-langx/langx",
 	"skylark-domx-fx",
+	"skylark-domx-styler",
+	"skylark-domx-placeholders",
 	"skylark-domx-query"
-],function(skylark,langx,fx,$) {
+],function(skylark,langx,fx,styler,placeholders,$) {
 
 	var dataSpace = "ui-effects-",
 		dataSpaceStyle = "ui-effects-style",
@@ -73,12 +75,14 @@ define([
 		},
 
 		saveStyle: function( element ) {
-			element.data( dataSpaceStyle, element[ 0 ].style.cssText );
+			//element.data( dataSpaceStyle, element[ 0 ].style.cssText );
+			placeholders.saveStyle(element[0]);
 		},
 
 		restoreStyle: function( element ) {
-			element[ 0 ].style.cssText = element.data( dataSpaceStyle ) || "";
-			element.removeData( dataSpaceStyle );
+			//element[ 0 ].style.cssText = element.data( dataSpaceStyle ) || "";
+			//element.removeData( dataSpaceStyle );
+			placeholders.restoreStyle(element[0]);
 		},
 
 		mode: function( element, mode ) {
@@ -133,73 +137,31 @@ define([
 
 		// Creates a placeholder element so that the original element can be made absolute
 		createPlaceholder: function( element ) {
-			var placeholder,
-				cssPosition = element.css( "position" ),
-				position = element.position();
-
-			// Lock in margins first to account for form elements, which
-			// will change margin if you explicitly set height
-			// see: http://jsfiddle.net/JZSMt/3/ https://bugs.webkit.org/show_bug.cgi?id=107380
-			// Support: Safari
-			element.css( {
-				marginTop: element.css( "marginTop" ),
-				marginBottom: element.css( "marginBottom" ),
-				marginLeft: element.css( "marginLeft" ),
-				marginRight: element.css( "marginRight" )
-			} )
-			.outerWidth( element.outerWidth() )
-			.outerHeight( element.outerHeight() );
-
-			if ( /^(static|relative)/.test( cssPosition ) ) {
-				cssPosition = "absolute";
-
-				placeholder = $( "<" + element[ 0 ].nodeName + ">" ).insertAfter( element ).css( {
-
-					// Convert inline to inline block to account for inline elements
-					// that turn to inline block based on content (like img)
-					display: /^(inline|ruby)/.test( element.css( "display" ) ) ?
-						"inline-block" :
-						"block",
-					visibility: "hidden",
-
-					// Margins need to be set to account for margin collapse
-					marginTop: element.css( "marginTop" ),
-					marginBottom: element.css( "marginBottom" ),
-					marginLeft: element.css( "marginLeft" ),
-					marginRight: element.css( "marginRight" ),
-					"float": element.css( "float" )
-				} )
-				.outerWidth( element.outerWidth() )
-				.outerHeight( element.outerHeight() )
-				.addClass( "ui-effects-placeholder" );
-
-				element.data( dataSpace + "placeholder", placeholder );
+			var placeholder ;
+			if (element.length) {
+				placeholder = placeholders.create(element[0]);
 			}
 
-			element.css( {
-				position: cssPosition,
-				left: position.left,
-				top: position.top
-			} );
+		    if (placeholder) {
+		    	styler.addClass(placeholder,"ui-effects-placeholder");
+		    }
+
 
 			return placeholder;
 		},
 
 		removePlaceholder: function( element ) {
-			var dataKey = dataSpace + "placeholder",
-					placeholder = element.data( dataKey );
-
-			if ( placeholder ) {
-				placeholder.remove();
-				element.removeData( dataKey );
+			if (element.length) {
+				placeholders.remove(element[0]);
 			}
 		},
 
 		// Removes a placeholder if it exists and restores
 		// properties that were modified during placeholder creation
 		cleanUp: function( element ) {
-			effects.restoreStyle( element );
-			effects.removePlaceholder( element );
+			if (element.length) {
+				placeholders.cleanup(element[0]);
+			}
 		},
 
 		setTransition: function( element, list, factor, value ) {
@@ -582,6 +544,6 @@ define([
 	} );
 
 
-	return skylark.attach("domx.effects", effects);
+	return skylark.attach("intg.jquery.effects", effects);
 
 });

@@ -31,15 +31,15 @@ function getPath( module ) {
 	for ( var j = 0; j < effectsAll.length; j++ ) {
 		if ( module !== "effects" ) {
 			if ( effectsAll[ j ] === module ) {
-				return "skylark-domx-effects/"+module;
+				return "skylark-jqueryui-effects/"+module;
 			}
 			if ( effectsAll[ j ].indexOf( module ) !== -1 ) {
-				return "skylark-domx-effects/plugins/" + module;
+				return "skylark-jqueryuijqueryui-effects/plugins/" + module;
 			}
 		}
 	}
 	if (module.indexOf("external") == -1) {
-		return "skylark-domx-effects/"+module;
+		return "skylark-jqueryui-effects/"+module;
 	}
 	return module;
 }
@@ -72,6 +72,11 @@ require.config( {
             main: 'main'
          },
          {
+           name : "skylark-langx-binary",
+           location : "../node_modules/skylark-langx-binary/dist/uncompressed/skylark-langx-binary",
+            main: 'main'
+         },
+         {
            name : "skylark-langx-datetimes",
            location : "../node_modules/skylark-langx-datetimes/dist/uncompressed/skylark-langx-datetimes",
             main: 'main'
@@ -79,6 +84,11 @@ require.config( {
          {
            name : "skylark-langx-emitter",
            location : "../node_modules/skylark-langx-emitter/dist/uncompressed/skylark-langx-emitter",
+            main: 'main'
+         },
+         {
+           name : "skylark-langx-events",
+           location : "../node_modules/skylark-langx-events/dist/uncompressed/skylark-langx-events",
             main: 'main'
          },
          {
@@ -97,13 +107,18 @@ require.config( {
             main: 'main'
          },
          {
+           name : "skylark-langx-maths",
+           location : "../node_modules/skylark-langx-maths/dist/uncompressed/skylark-langx-maths",
+            main: 'main'
+         },
+         {
            name : "skylark-langx-ns",
            location : "../node_modules/skylark-langx-ns/dist/uncompressed/skylark-langx-ns",
             main: 'main'
          },
          {
-           name : "skylark-langx-numbers",
-           location : "../node_modules/skylark-langx-numbers/dist/uncompressed/skylark-langx-numbers",
+           name : "skylark-langx-numerics",
+           location : "../node_modules/skylark-langx-numerics/dist/uncompressed/skylark-langx-numerics",
             main: 'main'
          },
          {
@@ -127,11 +142,6 @@ require.config( {
             main: 'main'
          },
          {
-           name : "skylark-langx-xhr",
-           location : "../node_modules/skylark-langx-xhr/dist/uncompressed/skylark-langx-xhr",
-            main: 'main'
-         },
-         {
            name : "skylark-langx",
            location : "../node_modules/skylark-langx/dist/uncompressed/skylark-langx",
             main: 'main'
@@ -146,11 +156,6 @@ require.config( {
          {
            name : "skylark-domx-css",
            location : "../node_modules/skylark-domx-css/dist/uncompressed/skylark-domx-css",
-            main: 'main'
-         },
-         {
-           name : "skylark-domx-browser",
-           location : "../node_modules/skylark-domx-browser/dist/uncompressed/skylark-domx-browser",
             main: 'main'
          },
          {
@@ -191,6 +196,11 @@ require.config( {
          {
            name : "skylark-domx-noder",
            location : "../node_modules/skylark-domx-noder/dist/uncompressed/skylark-domx-noder",
+            main: 'main'
+         },
+         {
+           name : "skylark-domx-placeholders",
+           location : "../node_modules/skylark-domx-placeholders/dist/uncompressed/skylark-domx-placeholders",
             main: 'main'
          },
          {
@@ -241,7 +251,7 @@ require.config( {
             main: 'main'
          },
 
-         { name: "skylark-domx-effects", location: "../src" }
+         { name: "skylark-jqueryui-effects", location: "../src" }
 
 	],
 	paths: {

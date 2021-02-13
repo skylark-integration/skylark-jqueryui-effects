@@ -4,7 +4,7 @@
   "description": "The effect features enhancement for skylark utils.",
   "main": "-",
   "scripts": {
-    "build": "sbundle build .",
+    "build": "slib build .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "www.skylarkjs.org",
@@ -30,6 +30,7 @@
     "skylark-domx-fx": "git+https://github.com/skylark-domx/skylark-domx-fx.git#master",
     "skylark-domx-geom": "git+https://github.com/skylark-domx/skylark-domx-geom.git#master",
     "skylark-domx-noder": "git+https://github.com/skylark-domx/skylark-domx-noder.git#master",
+    "skylark-domx-placeholders": "git+https://github.com/skylark-domx/skylark-domx-placeholders.git",
     "skylark-domx-query": "git+https://github.com/skylark-domx/skylark-domx-query.git#master",
     "skylark-domx-styler": "git+https://github.com/skylark-domx/skylark-domx-styler.git#master",
     "skylark-domx-velm": "git+https://github.com/skylark-domx/skylark-domx-velm.git#master",

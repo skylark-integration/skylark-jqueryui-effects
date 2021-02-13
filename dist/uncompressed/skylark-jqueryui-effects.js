@@ -90,8 +90,10 @@ define('skylark-jqueryui-effects/effects',[
 	"skylark-langx/skylark",
 	"skylark-langx/langx",
 	"skylark-domx-fx",
+	"skylark-domx-styler",
+	"skylark-domx-placeholders",
 	"skylark-domx-query"
-],function(skylark,langx,fx,$) {
+],function(skylark,langx,fx,styler,placeholders,$) {
 
 	var dataSpace = "ui-effects-",
 		dataSpaceStyle = "ui-effects-style",
@@ -161,12 +163,14 @@ define('skylark-jqueryui-effects/effects',[
 		},
 
 		saveStyle: function( element ) {
-			element.data( dataSpaceStyle, element[ 0 ].style.cssText );
+			//element.data( dataSpaceStyle, element[ 0 ].style.cssText );
+			placeholders.saveStyle(element[0]);
 		},
 
 		restoreStyle: function( element ) {
-			element[ 0 ].style.cssText = element.data( dataSpaceStyle ) || "";
-			element.removeData( dataSpaceStyle );
+			//element[ 0 ].style.cssText = element.data( dataSpaceStyle ) || "";
+			//element.removeData( dataSpaceStyle );
+			placeholders.restoreStyle(element[0]);
 		},
 
 		mode: function( element, mode ) {
@@ -221,73 +225,31 @@ define('skylark-jqueryui-effects/effects',[
 
 		// Creates a placeholder element so that the original element can be made absolute
 		createPlaceholder: function( element ) {
-			var placeholder,
-				cssPosition = element.css( "position" ),
-				position = element.position();
-
-			// Lock in margins first to account for form elements, which
-			// will change margin if you explicitly set height
-			// see: http://jsfiddle.net/JZSMt/3/ https://bugs.webkit.org/show_bug.cgi?id=107380
-			// Support: Safari
-			element.css( {
-				marginTop: element.css( "marginTop" ),
-				marginBottom: element.css( "marginBottom" ),
-				marginLeft: element.css( "marginLeft" ),
-				marginRight: element.css( "marginRight" )
-			} )
-			.outerWidth( element.outerWidth() )
-			.outerHeight( element.outerHeight() );
-
-			if ( /^(static|relative)/.test( cssPosition ) ) {
-				cssPosition = "absolute";
-
-				placeholder = $( "<" + element[ 0 ].nodeName + ">" ).insertAfter( element ).css( {
-
-					// Convert inline to inline block to account for inline elements
-					// that turn to inline block based on content (like img)
-					display: /^(inline|ruby)/.test( element.css( "display" ) ) ?
-						"inline-block" :
-						"block",
-					visibility: "hidden",
-
-					// Margins need to be set to account for margin collapse
-					marginTop: element.css( "marginTop" ),
-					marginBottom: element.css( "marginBottom" ),
-					marginLeft: element.css( "marginLeft" ),
-					marginRight: element.css( "marginRight" ),
-					"float": element.css( "float" )
-				} )
-				.outerWidth( element.outerWidth() )
-				.outerHeight( element.outerHeight() )
-				.addClass( "ui-effects-placeholder" );
-
-				element.data( dataSpace + "placeholder", placeholder );
+			var placeholder ;
+			if (element.length) {
+				placeholder = placeholders.create(element[0]);
 			}
 
-			element.css( {
-				position: cssPosition,
-				left: position.left,
-				top: position.top
-			} );
+		    if (placeholder) {
+		    	styler.addClass(placeholder,"ui-effects-placeholder");
+		    }
+
 
 			return placeholder;
 		},
 
 		removePlaceholder: function( element ) {
-			var dataKey = dataSpace + "placeholder",
-					placeholder = element.data( dataKey );
-
-			if ( placeholder ) {
-				placeholder.remove();
-				element.removeData( dataKey );
+			if (element.length) {
+				placeholders.remove(element[0]);
 			}
 		},
 
 		// Removes a placeholder if it exists and restores
 		// properties that were modified during placeholder creation
 		cleanUp: function( element ) {
-			effects.restoreStyle( element );
-			effects.removePlaceholder( element );
+			if (element.length) {
+				placeholders.cleanup(element[0]);
+			}
 		},
 
 		setTransition: function( element, list, factor, value ) {
@@ -670,7 +632,7 @@ define('skylark-jqueryui-effects/effects',[
 	} );
 
 
-	return skylark.attach("domx.effects", effects);
+	return skylark.attach("intg.jquery.effects", effects);
 
 });
 
@@ -721,105 +683,15 @@ return effects.define( "blind", "hide", function( options, done ) {
 
 define( 'skylark-jqueryui-effects/plugins/bounce',[
 	"skylark-langx/langx",
-	"skylark-domx-query",
+	"skylark-domx-fx/bounce",
 	"../effects"
-], function(langx,$,effects) {
-return effects.define( "bounce", function( options, done ) {
-	var upAnim, downAnim, refValue,
-		element = $( this ),
+], function(langx,xfbounce,effects) {
+	return effects.define( "bounce", function( options, done ) {
 
-		// Defaults:
-		mode = options.mode,
-		hide = mode === "hide",
-		show = mode === "show",
-		direction = options.direction || "up",
-		start,
-		distance = options.distance,
-		times = options.times || 5,
+		effects.createPlaceholder($(this));
 
-		// Number of internal animations
-		anims = times * 2 + ( show || hide ? 1 : 0 ),
-		speed = options.duration / anims,
-		easing = options.easing,
-
-		// Utility:
-		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
-		motion = ( direction === "up" || direction === "left" ),
-		i = 0;
-
-	effects.createPlaceholder( element );
-
-	var Deferred = langx.Deferred;
-	var funcs = [];
-
-	refValue = element.css( ref );
-
-	// Default distance for the BIGGEST bounce is the outer Distance / 3
-	if ( !distance ) {
-		distance = element[ ref === "top" ? "outerHeight" : "outerWidth" ]() / 3;
-	}
-	start = element.position()[ref];
-
-	if ( show ) {
-		downAnim = { opacity: 1 };
-		downAnim[ ref ] = refValue;
-
-		// If we are showing, force opacity 0 and set the initial position
-		// then do the "first" animation
-		element
-			.css( "opacity", 0 )
-			.css( ref, start + (motion ? -distance * 2 : distance * 2 ));
-
-		funcs.push(doAnimate(element,downAnim, speed, easing));
-	}
-
-	// Start at the smallest distance if we are hiding
-	if ( hide ) {
-		distance = distance / Math.pow( 2, times - 1 );
-	}
-
-	downAnim = {};
-	downAnim[ ref ] = refValue;
-
-
-	function doAnimate(element,properties, duration, ease) {
-		return function() {
-			var d = new Deferred();
-
-			element.animate( properties, duration, easing ,function(){
-				d.resolve();
-			});
-			return d.promise;
-
-		}
-	}
-
-	// Bounces up/down/left/right then back to 0 -- times * 2 animations happen here
-	for ( ; i < times; i++ ) {
-		upAnim = {};
-		upAnim[ ref ] = start + ( motion ? -distance : distance) ;
-
-		funcs.push(doAnimate(element,upAnim, speed, easing));
-
-		funcs.push(doAnimate(element,downAnim, speed, easing));
-
-		distance = hide ? distance * 2 : distance / 2;
-	}
-
-	// Last Bounce when Hiding
-	if ( hide ) {
-		upAnim = { opacity: 0 };
-		upAnim[ ref ] = start + ( motion ? -1 * distance : distance) ;
-
-		funcs.push(doAnimate(element,upAnim, speed, easing ));
-	}
-
-	funcs.push(done);
-	funcs.reduce(function(prev, curr, index, array) {
-  		return prev.then(curr);
-	}, Deferred.resolve());
-
-} );
+		return xfbounce(this,options,done);
+	});
 
 });
 
@@ -911,105 +783,29 @@ return effects.define( "drop", "hide", function( options, done ) {
 define( 'skylark-jqueryui-effects/plugins/explode',[
 	"skylark-langx/langx",
 	"skylark-domx-query",
+	"skylark-domx-fx/explode",
 	"../effects"
-], function(langx,$,effects) {
-return effects.define( "explode", "hide", function( options, done ) {
-
-	var i, j, left, top, mx, my,
-		rows = options.pieces ? Math.round( Math.sqrt( options.pieces ) ) : 3,
-		cells = rows,
-		element = $( this ),
-		mode = options.mode,
-		show = mode === "show",
-
-		// Show and then visibility:hidden the element before calculating offset
-		offset = element.show().css( "visibility", "hidden" ).offset(),
-
-		// Width and height of a piece
-		width = Math.ceil( element.outerWidth() / cells ),
-		height = Math.ceil( element.outerHeight() / rows ),
-		pieces = [];
-
-	// Children animate complete:
-	function childComplete() {
-		pieces.push( this );
-		if ( pieces.length === rows * cells ) {
-			animComplete();
-		}
-	}
-
-	// Clone the element for each row and cell.
-	for ( i = 0; i < rows; i++ ) { // ===>
-		top = offset.top + i * height;
-		my = i - ( rows - 1 ) / 2;
-
-		for ( j = 0; j < cells; j++ ) { // |||
-			left = offset.left + j * width;
-			mx = j - ( cells - 1 ) / 2;
-
-			// Create a clone of the now hidden main element that will be absolute positioned
-			// within a wrapper div off the -left and -top equal to size of our pieces
-			element
-				.clone()
-				.appendTo( "body" )
-				.wrap( "<div></div>" )
-				.css( {
-					position: "absolute",
-					visibility: "visible",
-					left: -j * width,
-					top: -i * height
-				} )
-
-				// Select the wrapper - make it overflow: hidden and absolute positioned based on
-				// where the original was located +left and +top equal to the size of pieces
-				.parent()
-					.addClass( "ui-effects-explode" )
-					.css( {
-						position: "absolute",
-						overflow: "hidden",
-						width: width,
-						height: height,
-						left: left + ( show ? mx * width : 0 ),
-						top: top + ( show ? my * height : 0 ),
-						opacity: show ? 0 : 1
-					} )
-					.animate( {
-						left: left + ( show ? 0 : mx * width ),
-						top: top + ( show ? 0 : my * height ),
-						opacity: show ? 1 : 0
-					}, options.duration || 500, options.easing, childComplete );
-		}
-	}
-
-	function animComplete() {
-		element.css( {
-			visibility: "visible"
-		} );
-		$( pieces ).remove();
-		done();
-	}
-} );
+], function(langx,$,xexplode,effects) {
+	return effects.define( "explode", "hide", function( options, done ) {
+		xexplode(this,options,done);
+	});
 
 });
 
 define( 'skylark-jqueryui-effects/plugins/fade',[
 	"skylark-langx/langx",
+	"skylark-domx-styler",
 	"skylark-domx-query",
+	"skylark-domx-fx/fade",
 	"../effects"
-], function(langx,$,effects) {
+], function(langx,styler,$,xfade,effects) {
 	return effects.define( "fade", "toggle", function( options, done ) {
 		var show = options.mode === "show";
 
-		$( this )
-			.css( "opacity", show ? 0 : 1 )
-			.animate( {
-				opacity: show ? 1 : 0
-			}, {
-				queue: false,
-				duration: options.duration,
-				easing: options.easing,
-				complete: done
-			} );
+		styler.css(this,"opacity", show ? 0 : 1 );
+
+		xfade(this,  show ? 1 : 0, options ,done );
+		
 	});
 
 });
@@ -1341,121 +1137,26 @@ define( 'skylark-jqueryui-effects/plugins/puff',[
 define( 'skylark-jqueryui-effects/plugins/pulsate',[
 	"skylark-langx/langx",
 	"skylark-domx-query",
+	"skylark-domx-fx/pulsate",
 	"../effects"
-], function(langx,$,effects) {
-return effects.define( "pulsate", "show", function( options, done ) {
-	var element = $( this ),
-		mode = options.mode,
-		show = mode === "show",
-		hide = mode === "hide",
-		showhide = show || hide,
-
-		// Showing or hiding leaves off the "last" animation
-		anims = ( ( options.times || 5 ) * 2 ) + ( showhide ? 1 : 0 ),
-		duration = options.duration / anims,
-		animateTo = 0,
-		i = 1;
-
-	if ( show || !element.is( ":visible" ) ) {
-		element.css( "opacity", 0 ).show();
-		animateTo = 1;
-	}
-
-	// Anims - 1 opacity "toggles"
-
-	var Deferred = langx.Deferred;
-	var funcs = [];
-
-	function doAnimate(element,properties, duration, ease) {
-		return function() {
-			var d = new Deferred();
-
-			element.animate( properties, duration, ease ,function(){
-				d.resolve();
-			});
-			return d.promise;
-
-		}
-	}
-
-
-	for ( ; i < anims; i++ ) {
-		funcs.push(doAnimate(element,{ opacity: animateTo }, duration, options.easing ));
-		animateTo = 1 - animateTo;
-	}
-
-    funcs.push(doAnimate(element,{ opacity: animateTo }, duration, options.easing ));
-
-	funcs.push(done);
-	funcs.reduce(function(prev, curr, index, array) {
-  		return prev.then(curr);
-	}, Deferred.resolve());
-
-} );
+], function(langx,$,pulsate,effects) {
+	return effects.define( "pulsate", "show", function( options, done ) {
+		pulsate(this,options,done);
+	} );
 
 });
 
 define( 'skylark-jqueryui-effects/plugins/shake',[
 	"skylark-langx/langx",
 	"skylark-domx-query",
+	"skylark-domx-fx/shake",
 	"../effects"
-], function(langx,$,effects) {
+], function(langx,$,xshake,effects) {
 return effects.define( "shake", function( options, done ) {
 
-	var i = 1,
-		element = $( this ),
-		direction = options.direction || "left",
-		distance = options.distance || 20,
-		times = options.times || 3,
-		anims = times * 2 + 1,
-		speed = Math.round( options.duration / anims ),
-		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
-		positiveMotion = ( direction === "up" || direction === "left" ),
-		animation0 = {},
-		animation = {},
-		animation1 = {},
-		animation2 = {};
+	effects.createPlaceholder($(this));
+	xshake(this,options,done);
 
-
-	effects.createPlaceholder( element );
-
-	var Deferred = langx.Deferred;
-		start = element.position()[ref],
-		funcs = [];
-
-	function doAnimate(element,properties, duration, ease) {
-		return function() {
-			var d = new Deferred();
-
-			element.animate( properties, duration, ease ,function(){
-				d.resolve();
-			});
-			return d.promise;
-
-		}
-	}
-
-	// Animation
-	animation0[ ref ] = start;
-	animation[ ref ] = start + ( positiveMotion ? -1 : 1 ) * distance;
-	animation1[ ref ] = animation[ ref ] + ( positiveMotion ? 1 : -1 ) * distance * 2;
-	animation2[ ref ] = animation1[ ref ] + ( positiveMotion ? -1 : 1 ) * distance * 2;
-
-	// Animate
-    funcs.push(doAnimate(element,animation, speed, options.easing ));
-
-	// Shakes
-	for ( ; i < times; i++ ) {
-	    funcs.push(doAnimate(element,animation1, speed, options.easing ));
-	    funcs.push(doAnimate(element,animation2, speed, options.easing ));
-	}
-
-    funcs.push(doAnimate(element,animation0, speed /2 , options.easing ));
-
-	funcs.push(done);
-	funcs.reduce(function(prev, curr, index, array) {
-  		return prev.then(curr);
-	}, Deferred.resolve());
 } );
 
 });
@@ -1463,9 +1164,11 @@ return effects.define( "shake", function( options, done ) {
 define( 'skylark-jqueryui-effects/plugins/slide',[
 	"skylark-langx/langx",
 	"skylark-domx-query",
+	"skylark-domx-fx/slide",
 	"../effects"
-], function(langx,$,effects) {
+], function(langx,$,xslide,effects) {
 return effects.define( "slide", "show", function( options, done ) {
+	/*
 	var startClip, startRef,
 		element = $( this ),
 		map = {
@@ -1507,6 +1210,11 @@ return effects.define( "slide", "show", function( options, done ) {
 		easing: options.easing,
 		complete: done
 	} );
+	*/
+	if (!options.direction) {
+		options.direction = "left";
+	}
+	xslide(this,options,done);
 } );
 
 });
